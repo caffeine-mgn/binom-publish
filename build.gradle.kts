@@ -66,20 +66,20 @@ gradlePlugin {
     }
 }
 
-//publishing {
-//    publications {
-//        val sources = tasks.getByName("kotlinSourcesJar")
-//        val docs = tasks.getByName("javadocJar")
-//        create<MavenPublication>("BinomPublish") {
-//            groupId = project.group.toString()
-//            artifactId = project.name
-//            version = project.version.toString()
-//            from(components["kotlin"])
-//            artifact(sources)
-//            artifact(docs)
-//        }
-//    }
-//}
+publishing {
+    publications {
+        val sources = tasks.getByName("kotlinSourcesJar")
+        val docs = tasks.getByName("javadocJar")
+        create<MavenPublication>("Main") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+            from(components["kotlin"])
+            artifact(sources)
+            artifact(docs)
+        }
+    }
+}
 
 tasks {
     val compileKotlin by getting {
