@@ -8,9 +8,10 @@ import pw.binom.publish.eachKotlinNativeCompile
 class LintKotlinPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.applyPluginIfNotApplied(org.jmailen.gradle.kotlinter.KotlinterPlugin::class)
-        target.tasks.findByName("compileKotlin")?.dependsOn("lintKotlinMain")
+        val lintKotlin = target.tasks.findByName("lintKotlin")
+        target.tasks.findByName("compileKotlin")?.dependsOn(lintKotlin)
         target.tasks.eachKotlinNativeCompile {
-            it.dependsOn("lintKotlinMain")
+            it.dependsOn(lintKotlin)
         }
     }
 }
