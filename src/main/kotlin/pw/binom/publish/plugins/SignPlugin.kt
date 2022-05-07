@@ -13,37 +13,39 @@ private const val GPG_PRIVATE_KEY_PROPERTY = "binom.gpg.private_key"
 class SignPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        val publishing = target.publishing
-        if (publishing == null) {
-            target.logger.warn("Can't sign jar files. $PUBLISH_PLUGIN_NOT_EXIST_MESSAGE")
-            return
-        }
-
-        val gpgKeyId = target.propertyOrNull(GPG_KEY_ID_PROPERTY)
-        val gpgPassword = target.propertyOrNull(GPG_PASSWORD_PROPERTY)
-        val gpgPrivateKey = target.propertyOrNull(GPG_PRIVATE_KEY_PROPERTY)?.replace("|", "\n")
-
-        if (gpgKeyId == null || gpgPassword == null || gpgPrivateKey == null) {
-            val sb = StringBuilder()
-            sb.appendLine("gpg configuration missing. Jar will be publish without sign. Reasons:")
-            if (gpgKeyId == null) {
-                sb.appendLine("  Property $GPG_KEY_ID_PROPERTY not found")
-            }
-            if (gpgPassword == null) {
-                sb.appendLine("  Property $GPG_PASSWORD_PROPERTY not found")
-            }
-            if (gpgPrivateKey == null) {
-                sb.appendLine("  Property $GPG_PRIVATE_KEY_PROPERTY not found")
-            }
-            target.logger.warn(sb.toString())
-            return
-        }
-
         target.applyPluginIfNotApplied("signing")
-        target.extensions.configure(SigningExtension::class.java) {
-            it.useInMemoryPgpKeys(gpgKeyId, gpgPrivateKey, gpgPassword)
-            it.sign(publishing.publications)
-            it.setRequired(target.tasks.filterIsInstance<PublishToMavenRepository>())
+        target.afterEvaluate {
+            val publishing = target.publishing
+            if (publishing == null) {
+                target.logger.warn("Can't sign jar files. $PUBLISH_PLUGIN_NOT_EXIST_MESSAGE")
+                return@afterEvaluate
+            }
+
+            val gpgKeyId = target.propertyOrNull(GPG_KEY_ID_PROPERTY)
+            val gpgPassword = target.propertyOrNull(GPG_PASSWORD_PROPERTY)
+            val gpgPrivateKey = target.propertyOrNull(GPG_PRIVATE_KEY_PROPERTY)?.replace("|", "\n")
+
+            if (gpgKeyId == null || gpgPassword == null || gpgPrivateKey == null) {
+                val sb = StringBuilder()
+                sb.appendLine("gpg configuration missing. Jar will be publish without sign. Reasons:")
+                if (gpgKeyId == null) {
+                    sb.appendLine("  Property $GPG_KEY_ID_PROPERTY not found")
+                }
+                if (gpgPassword == null) {
+                    sb.appendLine("  Property $GPG_PASSWORD_PROPERTY not found")
+                }
+                if (gpgPrivateKey == null) {
+                    sb.appendLine("  Property $GPG_PRIVATE_KEY_PROPERTY not found")
+                }
+                target.logger.warn(sb.toString())
+                return@afterEvaluate
+            }
+
+            target.extensions.configure(SigningExtension::class.java) {
+                it.useInMemoryPgpKeys(gpgKeyId, gpgPrivateKey, gpgPassword)
+                it.sign(publishing.publications)
+                it.setRequired(target.tasks.filterIsInstance<PublishToMavenRepository>())
+            }
         }
     }
 }
