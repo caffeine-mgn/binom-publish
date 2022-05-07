@@ -9,6 +9,7 @@ plugins {
 allprojects {
     version = System.getenv("VERSION") ?: "1.0.0-SNAPSHOT"
     group = "pw.binom"
+    println("version: $version")
 
     repositories {
         mavenLocal()
