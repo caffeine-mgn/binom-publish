@@ -17,7 +17,6 @@ class BinomPublishPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         fun warn(str:String){
             target.logger.warn(str)
-            println(str)
         }
 
         val publishing = target.publishing

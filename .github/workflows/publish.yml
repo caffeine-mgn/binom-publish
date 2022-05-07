@@ -4,7 +4,8 @@
 name: Publishing
 
 on:
-  release: {}
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
       machine:
