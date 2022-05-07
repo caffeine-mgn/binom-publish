@@ -7,6 +7,7 @@ import org.gradle.api.Task
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.tasks.TaskContainer
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinNativeCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
@@ -89,4 +90,31 @@ fun TaskContainer.eachKotlinTest(func: (Task) -> Unit) {
         .forEach(func)
     this.mapNotNull { it as? org.jetbrains.kotlin.gradle.targets.jvm.tasks.KotlinJvmTest }
         .forEach(func)
+}
+
+fun Project.applyMacSeparateBuild() {
+    val kotlin = extensions.findByType(KotlinMultiplatformExtension::class.java)
+        ?: return
+    kotlin.targets.forEach {
+        it.compilations.forEach {
+            val preset = it.target.preset?.name
+            it.compileKotlinTaskProvider.get().onlyIf {
+                when (preset) {
+                    "iosArm32",
+                    "iosArm64",
+                    "iosSimulatorArm64",
+                    "iosX64",
+                    "macosArm64",
+                    "macosX64",
+                    "watchosArm32",
+                    "watchosArm64",
+                    "watchosSimulatorArm64",
+                    "watchosX64",
+                    "watchosX86" -> true
+                    else -> false
+                }
+            }
+        }
+        it.targetName
+    }
 }
