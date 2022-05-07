@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinNativeCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
+import org.jetbrains.kotlin.konan.target.HostManager
 import java.io.ByteArrayOutputStream
 import kotlin.reflect.KClass
 
@@ -90,6 +91,12 @@ fun TaskContainer.eachKotlinTest(func: (Task) -> Unit) {
         .forEach(func)
     this.mapNotNull { it as? org.jetbrains.kotlin.gradle.targets.jvm.tasks.KotlinJvmTest }
         .forEach(func)
+}
+
+fun ifNotMac(func: () -> Unit) {
+    if (!HostManager.hostIsMac) {
+        func()
+    }
 }
 
 fun Project.applyMacSeparateBuild() {
