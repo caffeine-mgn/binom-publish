@@ -15,6 +15,7 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+        maven(url = "https://plugins.gradle.org/m2")
     }
 }
 
@@ -40,6 +41,7 @@ dependencies {
     api(gradleApi())
     api("org.jetbrains.kotlin:kotlin-gradle-plugin:${pw.binom.Versions.KOTLIN_VERSION}")
     api("org.jetbrains.dokka:dokka-gradle-plugin:1.6.21")
+    api("org.jmailen.gradle:kotlinter-gradle:3.10.0")
 }
 
 kotlinter {
