@@ -15,9 +15,14 @@ const val BINOM_REPO_PASSWORD_PROPERTY = "binom.repo.password"
 class BinomPublishPlugin : Plugin<Project> {
     private val logger = Logger.getLogger(this::class.java.name)
     override fun apply(target: Project) {
+        fun warn(str:String){
+            target.logger.warn(str)
+            println(str)
+        }
+
         val publishing = target.publishing
         if (publishing == null) {
-            target.logger.warn("$msg $PUBLISH_PLUGIN_NOT_EXIST_MESSAGE")
+            warn("$msg $PUBLISH_PLUGIN_NOT_EXIST_MESSAGE")
             return
         }
 
@@ -34,7 +39,7 @@ class BinomPublishPlugin : Plugin<Project> {
             if (password == null) {
                 sb.appendLine("  $BINOM_REPO_PASSWORD_PROPERTY not set")
             }
-            target.logger.warn(sb.toString())
+            warn(sb.toString())
             return
         }
 

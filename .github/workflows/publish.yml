@@ -24,12 +24,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
-        env:
-          VERSION: $CI_COMMIT_TAG
         uses: actions/setup-java@v1
         with:
           java-version: 11
       - uses: eskatos/gradle-command-action@v1
         with:
           gradle-version: wrapper
-          arguments: publish '-Pbinom.repo.user=${{ secrets.BINOM_REPO_USER }}' '-Pbinom.repo.password=${{ secrets.BINOM_REPO_PASSWORD }}' '-Pbinom.gpg.key_id=${{ secrets.GPG_KEY_ID }}' '-Pbinom.gpg.password=${{ secrets.GPG_PASSWORD }}' '-Pbinom.gpg.private_key=${{ secrets.GPG_PRIVATE_KEY }}' '-Pbinom.central.username=${{ secrets.CENTRAL_USENAME }}' '-Pbinom.central.password=${{ secrets.CENTRAL_PASSWORD }}'
+          arguments: publish -Pversion=${{ $CI_COMMIT_TAG }} '-Pbinom.repo.user=${{ secrets.BINOM_REPO_USER }}' '-Pbinom.repo.password=${{ secrets.BINOM_REPO_PASSWORD }}' '-Pbinom.gpg.key_id=${{ secrets.GPG_KEY_ID }}' '-Pbinom.gpg.password=${{ secrets.GPG_PASSWORD }}' '-Pbinom.gpg.private_key=${{ secrets.GPG_PRIVATE_KEY }}' '-Pbinom.central.username=${{ secrets.CENTRAL_USENAME }}' '-Pbinom.central.password=${{ secrets.CENTRAL_PASSWORD }}'

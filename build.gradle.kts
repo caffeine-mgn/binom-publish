@@ -1,3 +1,5 @@
+import pw.binom.propertyOrNull
+
 plugins {
     kotlin("jvm")
     `java-gradle-plugin`
@@ -7,7 +9,7 @@ plugins {
 }
 
 allprojects {
-    version = System.getenv("VERSION") ?: "1.0.0-SNAPSHOT"
+    version = System.getenv("VERSION") ?: propertyOrNull("version") ?: "1.0.0-SNAPSHOT"
     group = "pw.binom"
     println("version: $version")
 
@@ -34,8 +36,6 @@ extensions.getByType(pw.binom.plugins.PublicationPomInfoExtension::class).apply 
         email = "caffeine.mgn@gmail.com"
     )
 }
-
-
 
 dependencies {
     api(gradleApi())
