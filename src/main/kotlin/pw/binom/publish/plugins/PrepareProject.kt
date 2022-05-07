@@ -15,32 +15,26 @@ class PrepareProject : Plugin<Project> {
         val kotlin = target.extensions.findByType(KotlinMultiplatformExtension::class.java) ?: return
         target.plugins.apply(MultiplatformDocsPlugin::class.java)
         if (HostManager.hostIsMac) {
-            target.afterEvaluate {
-                kotlin.targets.forEach {
-                    it.compilations.forEach {
-                        val preset = it.target.preset?.name
-                        it.compileKotlinTaskProvider.configure {
-                            it.onlyIf {
-                                when (preset) {
-                                    "iosArm32",
-                                    "iosArm64",
-                                    "iosSimulatorArm64",
-                                    "iosX64",
-                                    "macosArm64",
-                                    "macosX64",
-                                    "watchosArm32",
-                                    "watchosArm64",
-                                    "watchosSimulatorArm64",
-                                    "watchosX64",
-                                    "watchosX86" -> true
-                                    else -> false
-                                }
-                            }
-                        }
-                    }
-                    it.targetName
+            kotlin.targets.removeIf {
+                val preset = it.preset?.name
+                when (preset) {
+                    "iosArm32",
+                    "iosArm64",
+                    "iosSimulatorArm64",
+                    "iosX64",
+                    "macosArm64",
+                    "macosX64",
+                    "watchosArm32",
+                    "watchosArm64",
+                    "watchosSimulatorArm64",
+                    "watchosX64",
+                    "watchosX86" -> true
+                    else -> false
                 }
             }
+//            kotlin.sourceSets.removeIf {
+//                it.requiresVisibilityOf
+//            }
         }
     }
 }
