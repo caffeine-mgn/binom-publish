@@ -38,9 +38,9 @@ class BinomPublishPlugin : Plugin<Project> {
             it.maven {
                 it.name = "Binom"
                 it.url = URI(BINOM_REPOSITORY_URL)
-                it.credentials {
-                    it.username = target.stringProperty(BINOM_REPO_USER_PROPERTY)
-                    it.password = target.stringProperty(BINOM_REPO_PASSWORD_PROPERTY)
+                it.credentials { credential ->
+                    credential.username = target.stringProperty(BINOM_REPO_USER_PROPERTY)
+                    credential.password = target.stringProperty(BINOM_REPO_PASSWORD_PROPERTY)
                 }
             }
         }
