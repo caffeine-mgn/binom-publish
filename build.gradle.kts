@@ -3,6 +3,7 @@ plugins {
     `java-gradle-plugin`
     `maven-publish`
     id("org.jmailen.kotlinter") version "3.10.0"
+    id("com.gradle.plugin-publish") version "0.16.0"
 }
 
 allprojects {
@@ -53,20 +54,33 @@ tasks {
         from(javadoc)
     }
 }
-publishing {
-    publications {
-        val sources = tasks.getByName("kotlinSourcesJar")
-        val docs = tasks.getByName("javadocJar")
-        create<MavenPublication>("BinomPublish") {
-            groupId = project.group.toString()
-            artifactId = project.name
-            version = project.version.toString()
-            from(components["kotlin"])
-            artifact(sources)
-            artifact(docs)
+
+gradlePlugin {
+    plugins {
+        create("binom-publish") {
+            id = "binom-publish"
+            implementationClass = "pw.binom.publish.plugins.PrepareProject"
+            description = "Kotlin-Native Clang"
+            isAutomatedPublishing = false
         }
     }
 }
+
+//publishing {
+//    publications {
+//        val sources = tasks.getByName("kotlinSourcesJar")
+//        val docs = tasks.getByName("javadocJar")
+//        create<MavenPublication>("BinomPublish") {
+//            groupId = project.group.toString()
+//            artifactId = project.name
+//            version = project.version.toString()
+//            from(components["kotlin"])
+//            artifact(sources)
+//            artifact(docs)
+//        }
+//    }
+//}
+
 tasks {
     val compileKotlin by getting {
         dependsOn("lintKotlinMain")
