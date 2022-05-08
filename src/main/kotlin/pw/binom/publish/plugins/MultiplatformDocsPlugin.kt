@@ -13,7 +13,7 @@ class MultiplatformDocsPlugin : Plugin<Project> {
         target.applyPluginIfNotApplied(org.jetbrains.dokka.gradle.DokkaPlugin::class)
         val publishing = target.publishing
         if (publishing == null) {
-            target.logger.warn("Can't apply pom info. $PUBLISH_PLUGIN_NOT_EXIST_MESSAGE")
+            target.logger.warn("Can't Generate Documentation for project. $PUBLISH_PLUGIN_NOT_EXIST_MESSAGE")
             return
         }
         val dokkaTask = target.tasks.getByName("dokkaHtml")
@@ -28,6 +28,16 @@ class MultiplatformDocsPlugin : Plugin<Project> {
                 it.artifact(dokkaJarTask)
             }
         }
+        target.tasks.withType(org.jetbrains.dokka.gradle.DokkaTask::class.java).configureEach {
+            it.dokkaSourceSets.removeIf {
+                it.name.endsWith("Test")
+            }
+//            it.dokkaSourceSets {
+//                dokkaSourceSets.removeIf { it.name.endsWith("Test") }
+//                println("Names: ${dokkaSourceSets.names}")
+//            }
+        }
+
         /*
         publishing.publications {
             it.forEach { publication ->

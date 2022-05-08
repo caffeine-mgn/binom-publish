@@ -9,7 +9,10 @@ plugins {
 }
 
 allprojects {
-    version = System.getenv("GITHUB_REF_NAME") ?: propertyOrNull("version") ?: "1.0.0-SNAPSHOT"
+    version = System.getenv("GITHUB_REF_NAME")
+        ?: propertyOrNull("version")
+            ?.takeUnless { it == "unspecified" }
+        ?: "1.0.0-SNAPSHOT"
     group = "pw.binom"
 
     repositories {
