@@ -1,7 +1,15 @@
 package pw.binom.plugins
 
+import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.tasks.Optional
+
+fun Project.pomInfo(func: (PublicationPomInfoExtension) -> Unit) {
+    func(pomInfo)
+}
+
+val Project.pomInfo
+    get() = extensions.getByType(PublicationPomInfoExtension::class.java)
 
 open class PublicationPomInfoExtension(objects: ObjectFactory) {
     val licenseProperty = objects.property(License::class.java)
