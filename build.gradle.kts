@@ -43,7 +43,7 @@ extensions.getByType(pw.binom.plugins.PublicationPomInfoExtension::class).apply 
 dependencies {
     api(gradleApi())
     api("org.jetbrains.kotlin:kotlin-gradle-plugin:${pw.binom.Versions.KOTLIN_VERSION}")
-    api("org.jetbrains.dokka:dokka-gradle-plugin:1.6.21")
+    api("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
     api("org.jmailen.gradle:kotlinter-gradle:3.10.0")
 }
 
