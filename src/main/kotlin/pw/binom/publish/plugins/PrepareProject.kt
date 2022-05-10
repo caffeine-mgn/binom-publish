@@ -4,6 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.konan.target.HostManager
+import pw.binom.publish.propertyOrNull
 
 class PrepareProject : Plugin<Project> {
     override fun apply(target: Project) {
@@ -14,7 +15,9 @@ class PrepareProject : Plugin<Project> {
         target.plugins.apply(LintKotlinPlugin::class.java)
 
         val kotlin = target.extensions.findByType(KotlinMultiplatformExtension::class.java) ?: return
-        target.plugins.apply(MultiplatformDocsPlugin::class.java)
+        if (target.propertyOrNull("disable-javadoc") == "true") {
+            target.plugins.apply(MultiplatformDocsPlugin::class.java)
+        }
         if (HostManager.hostIsMac) {
             kotlin.targets.removeIf {
                 val preset = it.preset?.name
