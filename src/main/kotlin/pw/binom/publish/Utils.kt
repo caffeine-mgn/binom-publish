@@ -1,13 +1,11 @@
 package pw.binom.publish
 
-import org.gradle.api.GradleException
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-import org.gradle.api.Task
+import org.gradle.api.*
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.tasks.TaskContainer
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinNativeCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
@@ -78,7 +76,7 @@ fun TaskContainer.eachKotlinCompile(func: (Task) -> Unit) {
     eachKotlinNativeCompile(func)
 }
 
-fun TaskContainer.eachKotlinNativeCompile(func: (AbstractKotlinNativeCompile<*, *>) -> Unit) {
+fun TaskContainer.eachKotlinNativeCompile(func: (AbstractKotlinNativeCompile<*, *, *>) -> Unit) {
     this
 //        .mapNotNull { it as? AbstractKotlinNativeCompile<*, *> }
         .mapNotNull { it as? KotlinNativeCompile }
@@ -125,3 +123,26 @@ fun Project.applyMacSeparateBuild() {
         it.targetName
     }
 }
+
+fun <T : Named> NamedDomainObjectContainer<T>.forEach(mask: String, func: (T) -> Unit) {
+    forEach { it ->
+        if (it.name.isWildcardMatch(mask)) {
+            func(it)
+        }
+    }
+}
+
+fun NamedDomainObjectContainer<KotlinSourceSet>.dependsOn(mask: String, to: String) {
+    val toSourceSet = this.getByName(to)
+    dependsOn(mask = mask, to = toSourceSet)
+}
+
+fun NamedDomainObjectContainer<KotlinSourceSet>.dependsOn(mask: String, to: KotlinSourceSet) {
+    forEach { it ->
+        if (it !== to && it.name.isWildcardMatch(mask)) {
+            it.dependsOn(to)
+        }
+    }
+}
+
+fun Project.getKotlin() = extensions.getByType(KotlinMultiplatformExtension::class.java)

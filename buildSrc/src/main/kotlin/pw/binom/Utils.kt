@@ -35,7 +35,7 @@ fun Project.getPublishing() =
 val Project.isSnapshot
     get() = (version as String).endsWith("-SNAPSHOT")
 
-fun Project.applyPluginIfNotApplyed(name:String) {
+fun Project.applyPluginIfNotApplyed(name: String) {
     apply {
         it.plugin(name)
     }
@@ -65,7 +65,7 @@ fun TaskContainer.eachKotlinCompile(func: (Task) -> Unit) {
     eachKotlinNativeCompile(func)
 }
 
-fun TaskContainer.eachKotlinNativeCompile(func: (AbstractKotlinNativeCompile<*, *>) -> Unit) {
+fun TaskContainer.eachKotlinNativeCompile(func: (AbstractKotlinNativeCompile<*, *, *>) -> Unit) {
     this
 //        .mapNotNull { it as? AbstractKotlinNativeCompile<*, *> }
         .mapNotNull { it as? KotlinNativeCompile }
