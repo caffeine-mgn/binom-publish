@@ -12,7 +12,7 @@ class LintKotlinPlugin : Plugin<Project> {
         val lintKotlin = target.tasks.findByName("lintKotlin")
         val kotlinterExtension = target.extensions.findByType(KotlinterExtension::class.java)
         kotlinterExtension?.also {
-            it.disabledRules = arrayOf("no-wildcard-imports")
+            it.disabledRules = arrayOf("no-wildcard-imports", "filename")
         }
         target.tasks.findByName("compileKotlin")?.dependsOn(lintKotlin)
         target.tasks.eachKotlinNativeCompile {
