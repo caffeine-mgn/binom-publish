@@ -52,6 +52,14 @@ fun Project.applyPluginIfNotApplied(clazz: KClass<out Plugin<*>>) {
     }
 }
 
+fun Project.getExternalVersion() =
+    System.getenv("GITHUB_REF_NAME") // github
+        ?: System.getenv("DRONE_TAG") // drone
+        ?: System.getenv("CI_COMMIT_TAG") // gitlab
+        ?: propertyOrNull("version")
+            ?.takeIf { it != "unspecified" }
+        ?: "1.0.0-SNAPSHOT"
+
 fun Project.getGitBranch(): String {
     val stdout = ByteArrayOutputStream()
     exec {
@@ -115,7 +123,13 @@ fun Project.applyMacSeparateBuild() {
                     "watchosArm64",
                     "watchosSimulatorArm64",
                     "watchosX64",
-                    "watchosX86" -> true
+                    "watchosX86",
+                    "tvos",
+                    "tvosArm64",
+                    "tvosSimulatorArm64",
+                    "tvosX64",
+                    -> true
+
                     else -> false
                 }
             }
@@ -132,17 +146,17 @@ fun <T : Named> NamedDomainObjectContainer<T>.forEach(mask: String, func: (T) ->
     }
 }
 
-fun NamedDomainObjectContainer<KotlinSourceSet>.dependsOn(mask: String, to: String) {
+fun NamedDomainObjectContainer<KotlinSourceSet>.dependsOn(mask: String, to: String): List<KotlinSourceSet> {
     val toSourceSet = this.getByName(to)
-    dependsOn(mask = mask, to = toSourceSet)
+    return dependsOn(mask = mask, to = toSourceSet)
 }
 
-fun NamedDomainObjectContainer<KotlinSourceSet>.dependsOn(mask: String, to: KotlinSourceSet) {
-    forEach { it ->
-        if (it !== to && it.name.isWildcardMatch(mask)) {
-            it.dependsOn(to)
-        }
+fun NamedDomainObjectContainer<KotlinSourceSet>.dependsOn(mask: String, to: KotlinSourceSet): List<KotlinSourceSet> {
+    val deps = filter { it !== to && it.name.isWildcardMatch(mask) }
+    deps.forEach {
+        it.dependsOn(to)
     }
+    return deps
 }
 
 fun Project.getKotlin() = extensions.getByType(KotlinMultiplatformExtension::class.java)
