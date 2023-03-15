@@ -44,7 +44,7 @@ dependencies {
     api(gradleApi())
     api("org.jetbrains.kotlin:kotlin-gradle-plugin:${pw.binom.Versions.KOTLIN_VERSION}")
     api("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
-    api("org.jmailen.gradle:kotlinter-gradle:3.10.0")
+    api("org.jmailen.gradle:kotlinter-gradle:3.14.0")
 }
 
 kotlinter {
@@ -65,7 +65,7 @@ gradlePlugin {
         create("binom-publish") {
             id = "binom-publish"
             implementationClass = "pw.binom.publish.plugins.PrepareProject"
-            description = "Kotlin-Native Clang"
+            description = "Publication Helper"
             isAutomatedPublishing = false
         }
     }

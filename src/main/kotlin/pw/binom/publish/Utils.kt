@@ -108,10 +108,10 @@ fun ifNotMac(func: () -> Unit) {
 fun Project.applyMacSeparateBuild() {
     val kotlin = extensions.findByType(KotlinMultiplatformExtension::class.java)
         ?: return
-    kotlin.targets.forEach {
-        it.compilations.forEach {
+    kotlin.targets.forEach { target ->
+        target.compilations.forEach {
             val preset = it.target.preset?.name
-            it.compileKotlinTaskProvider.get().onlyIf {
+            it.compileTaskProvider.get().onlyIf { task ->
                 when (preset) {
                     "iosArm32",
                     "iosArm64",
@@ -134,7 +134,7 @@ fun Project.applyMacSeparateBuild() {
                 }
             }
         }
-        it.targetName
+        target.targetName
     }
 }
 
@@ -160,3 +160,9 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.dependsOn(mask: String, to: Kotl
 }
 
 fun Project.getKotlin() = extensions.getByType(KotlinMultiplatformExtension::class.java)
+val Project.kotlin
+    @JvmName("getKotlinExtension")
+    get() = extensions.getByType(KotlinMultiplatformExtension::class.java)
+
+val Project.kotlinter
+    get() = extensions.getByType(org.jmailen.gradle.kotlinter.KotlinterExtension::class.java)
