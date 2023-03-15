@@ -11,9 +11,12 @@ class LintKotlinPlugin : Plugin<Project> {
         target.applyPluginIfNotApplied(org.jmailen.gradle.kotlinter.KotlinterPlugin::class)
         val lintKotlin = target.tasks.findByName("lintKotlin")
         val kotlinterExtension = target.extensions.findByType(KotlinterExtension::class.java)
-        kotlinterExtension?.also {
-            it.disabledRules = arrayOf("no-wildcard-imports", "filename", "import-ordering")
-        }
+//        kotlinterExtension?.also {
+//            it.disabledRules = arrayOf("no-wildcard-imports", "filename", "import-ordering")
+//        }
+//        target.tasks.withType(LintTask::class.java){
+//            it.ignoreFailures
+//        }
         target.tasks.findByName("compileKotlin")?.dependsOn(lintKotlin)
         target.tasks.eachKotlinNativeCompile {
             it.dependsOn(lintKotlin)

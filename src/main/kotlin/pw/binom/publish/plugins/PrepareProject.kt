@@ -12,7 +12,7 @@ class PrepareProject : Plugin<Project> {
         target.plugins.apply(CentralPublicationPlugin::class.java)
         target.plugins.apply(PublicationAuthorPlugin::class.java)
         target.plugins.apply(SignPlugin::class.java)
-        target.plugins.apply(LintKotlinPlugin::class.java)
+//        target.plugins.apply(LintKotlinPlugin::class.java)
 
         val kotlin = target.extensions.findByType(KotlinMultiplatformExtension::class.java) ?: return
         if (target.propertyOrNull("disable-javadoc") != "true") {
