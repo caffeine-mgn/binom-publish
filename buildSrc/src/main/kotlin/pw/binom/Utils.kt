@@ -65,7 +65,7 @@ fun TaskContainer.eachKotlinCompile(func: (Task) -> Unit) {
     eachKotlinNativeCompile(func)
 }
 
-fun TaskContainer.eachKotlinNativeCompile(func: (AbstractKotlinNativeCompile<*, *, *>) -> Unit) {
+fun TaskContainer.eachKotlinNativeCompile(func: (AbstractKotlinNativeCompile<*, *>) -> Unit) {
     this
 //        .mapNotNull { it as? AbstractKotlinNativeCompile<*, *> }
         .mapNotNull { it as? KotlinNativeCompile }
