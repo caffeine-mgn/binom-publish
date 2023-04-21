@@ -40,9 +40,9 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.useDefault() {
     val posixDesktop = createTarget("posixDesktop").dp(nativeRunnableMain)
     val mingwMain = createTarget("mingw").dp(nativeRunnableMain)
     val posixMain = createTarget("posix").dp(nativeRunnableMain)
-    val linuxLikeMain = createTarget("linuxLike").dp(posixMain).dp(posixDesktop)
-    val linuxMain = createTarget("linux").dp(posixMain).dp(linuxLikeMain)
-    val androidNativeMain = createTarget("androidNative").dp(linuxLikeMain)
+
+    val linuxMain = createTarget("linux").dp(posixMain)
+    val androidNativeMain = createTarget("androidNative")
     val darwinMain = createTarget("darwin").dp(posixMain)
 
     dependsOn("jvm", jvmLike)
@@ -55,8 +55,11 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.useDefault() {
     dependsOn("tvos*", darwinMain)
     dependsOn("androidNative*", androidNativeMain)
     dependsOn("wasm*", nativeCommon)
-
     dependsOn("androidMain", jvmLike)
+
+    val linuxLikeMain = createTarget("linuxLike").dp(posixMain).dp(posixDesktop)
+    androidNativeMain.dp(linuxLikeMain)
+    linuxMain.dp(linuxLikeMain)
 
     common.second?.let {
         it.dependencies {
