@@ -40,8 +40,9 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.useDefault() {
     val posixDesktop = createTarget("posixDesktop").dp(nativeRunnableMain)
     val mingwMain = createTarget("mingw").dp(nativeRunnableMain)
     val posixMain = createTarget("posix").dp(nativeRunnableMain)
-    val linuxMain = createTarget("linux").dp(posixMain).dp(posixDesktop)
-    val androidNativeMain = createTarget("androidNative").dp(posixMain)
+    val linuxLikeMain = createTarget("linuxLike").dp(posixMain).dp(posixDesktop)
+    val linuxMain = createTarget("linux").dp(posixMain).dp(linuxLikeMain)
+    val androidNativeMain = createTarget("androidNative").dp(linuxLikeMain)
     val darwinMain = createTarget("darwin").dp(posixMain)
 
     dependsOn("jvm", jvmLike)
