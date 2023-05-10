@@ -1,3 +1,4 @@
+
 import pw.binom.propertyOrNull
 
 plugins {
@@ -36,7 +37,7 @@ extensions.getByType(pw.binom.plugins.PublicationPomInfoExtension::class).apply 
     author(
         id = "subochev",
         name = "Anton Subochev",
-        email = "caffeine.mgn@gmail.com"
+        email = "caffeine.mgn@gmail.com",
     )
 }
 
@@ -66,7 +67,6 @@ gradlePlugin {
             id = "binom-publish"
             implementationClass = "pw.binom.publish.plugins.PrepareProject"
             description = "Publication Helper"
-            isAutomatedPublishing = false
         }
     }
 }
@@ -82,6 +82,17 @@ publishing {
             from(components["kotlin"])
             artifact(sources)
             artifact(docs)
+        }
+    }
+}
+
+tasks {
+    whenTaskAdded {
+        if (this !is PublishToMavenRepository) {
+            return@whenTaskAdded
+        }
+        if (name.endsWith("publishPluginMarkerMavenPublicationToCentralRepository")) {
+            enabled = false
         }
     }
 }

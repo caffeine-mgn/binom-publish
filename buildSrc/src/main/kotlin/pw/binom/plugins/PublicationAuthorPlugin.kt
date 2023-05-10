@@ -3,7 +3,6 @@ package pw.binom.plugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
-import pw.binom.getPublishing
 import pw.binom.publishing
 
 class PublicationAuthorPlugin : Plugin<Project> {
