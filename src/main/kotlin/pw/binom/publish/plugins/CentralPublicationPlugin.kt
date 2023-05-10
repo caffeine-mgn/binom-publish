@@ -2,6 +2,7 @@ package pw.binom.publish.plugins
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import pw.binom.publish.*
 import java.net.URI
 import java.util.logging.Logger
@@ -13,6 +14,15 @@ private const val msg = "Publication to Central repository is disabled."
 class CentralPublicationPlugin : Plugin<Project> {
     private val logger = Logger.getLogger(this::class.java.name)
     override fun apply(target: Project) {
+        target.tasks.whenTaskAdded { task ->
+            if (task !is PublishToMavenRepository) {
+                return@whenTaskAdded
+            }
+            if (task.name.startsWith("publish") && task.name.endsWith("PluginMarkerMavenPublicationToCentralRepository")) {
+                task.enabled = false
+                return@whenTaskAdded
+            }
+        }
         target.afterEvaluate {
             val publishing = target.publishing
             if (publishing == null) {
