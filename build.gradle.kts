@@ -91,7 +91,7 @@ tasks {
         if (this !is PublishToMavenRepository) {
             return@whenTaskAdded
         }
-        if (name.endsWith("publishPluginMarkerMavenPublicationToCentralRepository")) {
+        if (name.startsWith("publish") && name.endsWith("PluginMarkerMavenPublicationToCentralRepository")) {
             enabled = false
         }
     }

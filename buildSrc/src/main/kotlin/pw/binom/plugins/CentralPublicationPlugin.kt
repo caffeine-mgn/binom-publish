@@ -60,7 +60,7 @@ class CentralPublicationPlugin : Plugin<Project> {
             if (task !is PublishToMavenRepository) {
                 return@whenTaskAdded
             }
-            if (task.name.endsWith("publishPluginMarkerMavenPublicationToCentralRepository")) {
+            if (task.name.startsWith("publish") && task.name.endsWith("PluginMarkerMavenPublicationToCentralRepository")) {
                 task.enabled = false
                 return@whenTaskAdded
             }
