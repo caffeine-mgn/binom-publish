@@ -13,7 +13,7 @@ buildscript {
 val kotlinVersion = project.property("kotlin.version") as String
 
 plugins {
-    kotlin("jvm") version "1.8.21"
+    kotlin("jvm") version "1.9.20"
 }
 
 repositories {

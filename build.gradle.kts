@@ -64,7 +64,7 @@ tasks {
 gradlePlugin {
     plugins {
         create("binom-publish") {
-            id = "binom-publish"
+            id = "pw.binom.publish"
             implementationClass = "pw.binom.publish.plugins.PrepareProject"
             description = "Publication Helper"
         }
