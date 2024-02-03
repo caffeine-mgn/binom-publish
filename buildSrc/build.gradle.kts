@@ -13,7 +13,7 @@ buildscript {
 val kotlinVersion = project.property("kotlin.version") as String
 
 plugins {
-    kotlin("jvm") version "1.9.20"
+    kotlin("jvm") version "1.9.21"
 }
 
 repositories {
@@ -24,5 +24,5 @@ repositories {
 dependencies {
     api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     api("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-    api("org.jetbrains.dokka:dokka-gradle-plugin:1.8.10")
+    api("org.jetbrains.dokka:dokka-gradle-plugin:1.9.10")
 }

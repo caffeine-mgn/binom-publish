@@ -3,8 +3,12 @@ package pw.binom.publish.plugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
+import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
-import pw.binom.publish.*
+import pw.binom.publish.PUBLISH_PLUGIN_NOT_EXIST_MESSAGE
+import pw.binom.publish.applyPluginIfNotApplied
+import pw.binom.publish.propertyOrNull
+import pw.binom.publish.publishing
 
 private const val GPG_KEY_ID_PROPERTY = "binom.gpg.key_id"
 private const val GPG_PASSWORD_PROPERTY = "binom.gpg.password"
@@ -45,6 +49,16 @@ class SignPlugin : Plugin<Project> {
                 it.useInMemoryPgpKeys(gpgKeyId, gpgPrivateKey, gpgPassword)
                 it.sign(publishing.publications)
                 it.setRequired(target.tasks.filterIsInstance<PublishToMavenRepository>())
+            }
+            target.tasks.withType(Sign::class.java) { signTask ->
+                val targetName = signTask.name.removePrefix("sign")
+                target.tasks.withType(PublishToMavenRepository::class.java)
+                    .asSequence()
+                    .filter {
+                        it.name.startsWith("publish$targetName")
+                    }.forEach { publishTask ->
+                        publishTask.dependsOn(signTask)
+                    }
             }
         }
     }

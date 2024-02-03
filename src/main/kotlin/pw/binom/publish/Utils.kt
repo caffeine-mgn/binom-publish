@@ -164,5 +164,5 @@ val Project.kotlin
     @JvmName("getKotlinExtension")
     get() = extensions.getByType(KotlinMultiplatformExtension::class.java)
 
-val Project.kotlinter
-    get() = extensions.getByType(org.jmailen.gradle.kotlinter.KotlinterExtension::class.java)
+//val Project.kotlinter
+//    get() = extensions.getByType(org.jmailen.gradle.kotlinter.KotlinterExtension::class.java)

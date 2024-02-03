@@ -5,7 +5,6 @@ plugins {
     kotlin("jvm")
     `java-gradle-plugin`
     `maven-publish`
-    id("org.jmailen.kotlinter") version "3.10.0"
     id("com.gradle.plugin-publish") version "0.16.0"
 }
 
@@ -44,14 +43,9 @@ extensions.getByType(pw.binom.plugins.PublicationPomInfoExtension::class).apply 
 dependencies {
     api(gradleApi())
     api("org.jetbrains.kotlin:kotlin-gradle-plugin:${pw.binom.Versions.KOTLIN_VERSION}")
-    api("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
-    api("org.jmailen.gradle:kotlinter-gradle:3.14.0")
+    api("org.jetbrains.dokka:dokka-gradle-plugin:1.9.10")
 }
 
-kotlinter {
-//    indentSize = 4
-    disabledRules = arrayOf("no-wildcard-imports")
-}
 tasks {
     val dokkaJavadoc by getting
     val javadocJar by creating(Jar::class) {
@@ -94,11 +88,5 @@ tasks {
         if (name.startsWith("publish") && name.endsWith("PluginMarkerMavenPublicationToCentralRepository")) {
             enabled = false
         }
-    }
-}
-
-tasks {
-    val compileKotlin by getting {
-        dependsOn("lintKotlinMain")
     }
 }
