@@ -50,15 +50,10 @@ class SignPlugin : Plugin<Project> {
                 it.sign(publishing.publications)
                 it.setRequired(target.tasks.filterIsInstance<PublishToMavenRepository>())
             }
-            target.tasks.withType(Sign::class.java) { signTask ->
-                val targetName = signTask.name.removePrefix("sign")
-                target.tasks.withType(PublishToMavenRepository::class.java)
-                    .asSequence()
-                    .filter {
-                        it.name.startsWith("publish$targetName")
-                    }.forEach { publishTask ->
-                        publishTask.dependsOn(signTask)
-                    }
+
+            target.tasks.withType(PublishToMavenRepository::class.java) {publishTask->
+                publishTask.dependsOn(target.tasks.withType(Sign::class.java))
+
             }
         }
     }
