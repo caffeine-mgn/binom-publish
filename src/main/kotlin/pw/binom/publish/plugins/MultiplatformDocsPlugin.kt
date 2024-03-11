@@ -16,7 +16,7 @@ class MultiplatformDocsPlugin : Plugin<Project> {
             target.logger.warn("Can't Generate Documentation for project. $PUBLISH_PLUGIN_NOT_EXIST_MESSAGE")
             return
         }
-        val dokkaTask = target.tasks.getByName("dokkaHtml")
+        val dokkaTask = target.tasks.getByName("dokkaHtmlPartial")
         val dokkaJarTask = target.tasks.register("dokkaHtmlJar", Jar::class.java) {
             it.dependsOn(dokkaTask)
             it.archiveClassifier.set("javadoc")
