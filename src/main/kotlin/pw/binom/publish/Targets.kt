@@ -23,6 +23,7 @@ private val macTargets = setOf(
     "watchosSimulatorArm64", "watchosX64",
 )
 
+fun KotlinMultiplatformExtension.allTargets() = allTargets { }
 fun KotlinMultiplatformExtension.allTargets(func: (TargetConfig.() -> Unit)) {
     val tasks = HashSet<String>()
     object : TargetConfig {
