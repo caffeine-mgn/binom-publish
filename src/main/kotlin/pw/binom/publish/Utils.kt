@@ -14,7 +14,7 @@ import java.io.ByteArrayOutputStream
 import kotlin.reflect.KClass
 
 const val BINOM_REPOSITORY_URL = "https://repo.binom.pw"
-const val PUBLISH_PLUGIN_NOT_EXIST_MESSAGE = "Do you shure plugin \"maven-publish\" was applyed?"
+const val PUBLISH_PLUGIN_NOT_EXIST_MESSAGE = "Are you sure plugin \"maven-publish\" was applied?"
 const val BINOM_REPO_USER_PROPERTY = "binom.repo.user"
 const val BINOM_REPO_PASSWORD_PROPERTY = "binom.repo.password"
 
@@ -84,7 +84,7 @@ fun TaskContainer.eachKotlinCompile(func: (Task) -> Unit) {
     eachKotlinNativeCompile(func)
 }
 
-fun TaskContainer.eachKotlinNativeCompile(func: (AbstractKotlinNativeCompile<*, *, *>) -> Unit) {
+fun TaskContainer.eachKotlinNativeCompile(func: (AbstractKotlinNativeCompile<*, *>) -> Unit) {
     this
 //        .mapNotNull { it as? AbstractKotlinNativeCompile<*, *> }
         .mapNotNull { it as? KotlinNativeCompile }

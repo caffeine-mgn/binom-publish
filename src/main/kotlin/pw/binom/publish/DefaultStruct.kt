@@ -1,7 +1,60 @@
 package pw.binom.publish
 
 import org.gradle.api.NamedDomainObjectContainer
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import org.jetbrains.kotlin.gradle.plugin.KotlinHierarchyTemplate
+import org.jetbrains.kotlin.gradle.plugin.extend
+
+/**
+ * ```
+ *       jvmLike
+ *          |
+ *    +----------+
+ *    |          |
+ * android      jvm
+ *
+ *           posix
+ *             |
+ *   +---------+--------------+
+ *   |         |              |
+ * apply     linux     androidNative
+ *
+ *
+ *                        runnable
+ *                           |
+ *  +---------+---------+---------+--------+------------+
+ * jvm     android    apply     linux    mingw    androidNative
+ * ```
+ *
+ * @see org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension.applyDefaultHierarchyTemplate()
+ */
+fun KotlinMultiplatformExtension.applyDefaultHierarchyBinomTemplate() {
+    val template =
+        KotlinHierarchyTemplate.default.extend {
+            common {
+                group("jvmLike") {
+                    withAndroidTarget()
+                    withJvm()
+                }
+                group("posix") {
+                    withApple()
+                    withLinux()
+                    withAndroidNative()
+                }
+                group("runnable") {
+                    withJvm()
+                    withAndroidTarget()
+                    withApple()
+                    withLinux()
+                    withMingw()
+                    withAndroidNative()
+                }
+            }
+        }
+    applyDefaultHierarchyTemplate()
+    applyHierarchyTemplate(template)
+}
 
 fun NamedDomainObjectContainer<KotlinSourceSet>.useDefault() {
     fun KotlinSourceSet.dp(other: KotlinSourceSet?): KotlinSourceSet {
