@@ -12,7 +12,7 @@ private val commonTargets = setOf(
     "jvm", "js",
     "androidNativeArm32", "androidNativeArm64",
     "androidNativeX64", "androidNativeX86",
-    "linuxArm64", "linuxX64", "mingwX64"
+    "linuxArm64", "linuxX64", "mingwX64",
 )
 private val macTargets = setOf(
     "iosArm64", "iosSimulatorArm64",

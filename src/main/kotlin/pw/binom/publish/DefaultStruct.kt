@@ -52,10 +52,9 @@ fun KotlinMultiplatformExtension.applyDefaultHierarchyBinomTemplate() {
                 }
             }
         }
-    applyDefaultHierarchyTemplate()
     applyHierarchyTemplate(template)
 }
-
+/*
 fun NamedDomainObjectContainer<KotlinSourceSet>.useDefault() {
     fun KotlinSourceSet.dp(other: KotlinSourceSet?): KotlinSourceSet {
         if (other != null) {
@@ -132,3 +131,4 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.useDefault() {
         }
     }
 }
+*/

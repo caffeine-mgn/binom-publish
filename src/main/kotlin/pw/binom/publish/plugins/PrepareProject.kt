@@ -18,6 +18,7 @@ class PrepareProject : Plugin<Project> {
         if (target.propertyOrNull("disable-javadoc") != "true") {
             target.plugins.apply(MultiplatformDocsPlugin::class.java)
         }
+        /*
         if (HostManager.hostIsMac) {
             kotlin.targets.removeIf {
                 val preset = it.preset?.name
@@ -40,5 +41,6 @@ class PrepareProject : Plugin<Project> {
 //                it.requiresVisibilityOf
 //            }
         }
+        */
     }
 }

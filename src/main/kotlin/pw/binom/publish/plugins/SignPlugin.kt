@@ -3,6 +3,7 @@ package pw.binom.publish.plugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
+import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
 import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
 import pw.binom.publish.PUBLISH_PLUGIN_NOT_EXIST_MESSAGE
@@ -48,13 +49,28 @@ class SignPlugin : Plugin<Project> {
             target.extensions.configure(SigningExtension::class.java) {
                 it.useInMemoryPgpKeys(gpgKeyId, gpgPrivateKey, gpgPassword)
                 it.sign(publishing.publications)
-                it.setRequired(target.tasks.filterIsInstance<PublishToMavenRepository>())
+                it.setRequired(target.tasks.withType(AbstractPublishToMaven::class.java))
             }
 
-            target.tasks.withType(PublishToMavenRepository::class.java) {publishTask->
-                publishTask.dependsOn(target.tasks.withType(Sign::class.java))
-
+            target.tasks.withType(AbstractPublishToMaven::class.java) { publishTask ->
+                val signTasks = target.tasks.withType(Sign::class.java)
+                /*
+                val s = publishTask.name.removePrefix("publish")
+                val i = s.indexOf("PublicationTo")
+                if (i == -1) {
+                    TODO()
+                }
+                val bb = s.substring(0, i)
+                val signName = "sign${bb}Publication"
+                val signTask = signTasks.find { it -> it.name == signName } ?: TODO("Sign task not found")
+                println("${publishTask.name}->$bb -> ${signTask.name}")
+                */
+//                publishTask.dependsOn(signTask)
+//                publishTask.mustRunAfter(signTask)
+                publishTask.mustRunAfter(signTasks)
+//                publishTask.dependsOn(target.tasks.withType(Sign::class.java))
             }
+
         }
     }
 }
