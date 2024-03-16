@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.konan.target.HostManager
 
 interface TargetConfig {
     operator fun String.unaryMinus()
+    operator fun String.unaryPlus()
 }
 
 private val commonTargets = setOf(
@@ -26,16 +27,19 @@ private val macTargets = setOf(
 fun KotlinMultiplatformExtension.allTargets() = allTargets { }
 fun KotlinMultiplatformExtension.allTargets(func: (TargetConfig.() -> Unit)) {
     val tasks = HashSet<String>()
-    object : TargetConfig {
-        override fun String.unaryMinus() {
-            tasks -= this
-        }
-
-    }
     tasks += commonTargets
     if (HostManager.hostIsMac) {
         tasks += macTargets
     }
+    func(object : TargetConfig {
+        override fun String.unaryMinus() {
+            tasks -= this
+        }
+
+        override fun String.unaryPlus() {
+            tasks += this
+        }
+    })
     tasks.forEach { task ->
         when (task) {
             "jvm" ->
@@ -57,12 +61,16 @@ fun KotlinMultiplatformExtension.allTargets(func: (TargetConfig.() -> Unit)) {
                     nodejs()
                 }
 
-            "wasm" ->
+            "wasmJs" ->
                 wasmJs {
                     browser()
                     nodejs()
                     d8()
                 }
+
+            "wasmWasi" -> wasmWasi{
+                nodejs()
+            }
 
             "android" ->
                 androidTarget {

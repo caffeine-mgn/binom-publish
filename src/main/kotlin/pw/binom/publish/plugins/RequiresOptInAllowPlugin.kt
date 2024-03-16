@@ -9,7 +9,9 @@ class RequiresOptInAllowPlugin : Plugin<Project> {
         val kotlin = target.getKotlin()
         kotlin.targets.configureEach {
             it.compilations.all {
-                it.compileKotlinTask.kotlinOptions.freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn")
+                it.compileTaskProvider.get().compilerOptions {
+                    this.optIn.add("kotlin.RequiresOptIn")
+                }
             }
         }
     }
