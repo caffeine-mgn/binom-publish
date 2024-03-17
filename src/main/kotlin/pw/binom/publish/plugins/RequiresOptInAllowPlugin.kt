@@ -11,6 +11,7 @@ class RequiresOptInAllowPlugin : Plugin<Project> {
             it.compilations.all {
                 it.compileTaskProvider.get().compilerOptions {
                     this.optIn.add("kotlin.RequiresOptIn")
+                    this.freeCompilerArgs.add("-Xexpect-actual-classes")
                 }
             }
         }
