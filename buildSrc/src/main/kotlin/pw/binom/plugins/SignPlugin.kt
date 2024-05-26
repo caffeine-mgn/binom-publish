@@ -2,7 +2,9 @@ package pw.binom.plugins
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
+import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
 import pw.binom.*
 
@@ -44,6 +46,10 @@ class SignPlugin : Plugin<Project> {
             it.useInMemoryPgpKeys(gpgKeyId, gpgPrivateKey, gpgPassword)
             it.sign(publishing.publications)
             it.setRequired(target.tasks.filterIsInstance<PublishToMavenRepository>())
+        }
+        target.tasks.withType(AbstractPublishToMaven::class.java) { publishTask ->
+            val signTasks = target.tasks.withType(Sign::class.java)
+            publishTask.mustRunAfter(signTasks)
         }
     }
 }

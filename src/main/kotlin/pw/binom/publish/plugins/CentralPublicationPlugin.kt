@@ -12,7 +12,6 @@ private const val CENTRAL_PASSWORD_PROPERTY = "binom.central.password"
 private const val msg = "Publication to Central repository is disabled."
 
 class CentralPublicationPlugin : Plugin<Project> {
-    private val logger = Logger.getLogger(this::class.java.name)
     override fun apply(target: Project) {
         target.tasks.whenTaskAdded { task ->
             if (task !is PublishToMavenRepository) {
