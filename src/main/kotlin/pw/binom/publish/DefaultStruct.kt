@@ -1,8 +1,6 @@
 package pw.binom.publish
 
-import org.gradle.api.NamedDomainObjectContainer
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.KotlinHierarchyTemplate
 import org.jetbrains.kotlin.gradle.plugin.extend
 
@@ -24,7 +22,7 @@ import org.jetbrains.kotlin.gradle.plugin.extend
  *                        runnable
  *                           |
  *  +---------+---------+---------+--------+------------+
- * jvm     android    apply     linux    mingw    androidNative
+ * jvm     android    apple     linux    mingw    androidNative
  * ```
  *
  * @see org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension.applyDefaultHierarchyTemplate()
@@ -33,6 +31,9 @@ fun KotlinMultiplatformExtension.applyDefaultHierarchyBinomTemplate() {
     val template =
         KotlinHierarchyTemplate.default.extend {
             common {
+                withJs()
+                withWasm()
+
                 group("jvmLike") {
                     withAndroidTarget()
                     withJvm()

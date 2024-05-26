@@ -49,7 +49,7 @@ class CentralPublicationPlugin : Plugin<Project> {
 
             publishing.repositories {
                 it.maven {
-                    it.name = "Central"
+                    it.name = if (target.isSnapshot) "CentralSnapshot" else "Central"
                     val url = if (target.isSnapshot)
                         "https://s01.oss.sonatype.org/content/repositories/snapshots"
                     else
