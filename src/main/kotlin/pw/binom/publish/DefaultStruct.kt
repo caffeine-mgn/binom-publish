@@ -23,6 +23,16 @@ import org.jetbrains.kotlin.gradle.plugin.extend
  *                           |
  *  +---------+---------+---------+--------+------------+
  * jvm     android    apple     linux    mingw    androidNative
+ *
+ *    browser
+ *      |
+ *  +-------+
+ * js     wasmJs
+ *
+ *                                 nonJvm
+ *                                   |
+ *  +-------+----------+--------+---------+---------+-------------+
+ * js     wasmJs     wasm     apple     linux     mingw     androidNative
  * ```
  *
  * @see org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension.applyDefaultHierarchyTemplate()
@@ -33,6 +43,8 @@ fun KotlinMultiplatformExtension.applyDefaultHierarchyBinomTemplate() {
             common {
                 withJs()
                 withWasm()
+                withWasmJs()
+                withWasmWasi()
 
                 group("jvmLike") {
                     withAndroidTarget()
@@ -43,6 +55,10 @@ fun KotlinMultiplatformExtension.applyDefaultHierarchyBinomTemplate() {
                     withLinux()
                     withAndroidNative()
                 }
+                group("browser") {
+                    withJs()
+                    withWasmJs()
+                }
                 group("runnable") {
                     withJvm()
                     withAndroidTarget()
@@ -50,6 +66,19 @@ fun KotlinMultiplatformExtension.applyDefaultHierarchyBinomTemplate() {
                     withLinux()
                     withMingw()
                     withAndroidNative()
+                }
+                group("nonJvm"){
+                    withJs()
+                    withWasmJs()
+                    withWasm()
+                    withApple()
+                    withLinux()
+                    withMingw()
+                    withAndroidNative()
+                }
+                group("mobile"){
+                    withAndroidTarget()
+                    withIos()
                 }
             }
         }

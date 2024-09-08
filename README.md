@@ -8,7 +8,7 @@
 `build.gradle.kts`
 ```kotlin
 plugins {
-    id("pw.binom.publish") version "0.1.12"
+    id("pw.binom.publish") version "0.1.13"
 }
 ```
 
