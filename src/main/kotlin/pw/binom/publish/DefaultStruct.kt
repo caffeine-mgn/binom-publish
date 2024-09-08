@@ -33,6 +33,11 @@ import org.jetbrains.kotlin.gradle.plugin.extend
  *                                   |
  *  +-------+----------+--------+---------+---------+-------------+
  * js     wasmJs     wasm     apple     linux     mingw     androidNative
+ *
+ *            commonWasm
+ *                |
+ *    +-----------+----------+
+ *  wasmJs     wasmWasi     wasm
  * ```
  *
  * @see org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension.applyDefaultHierarchyTemplate()
@@ -79,6 +84,11 @@ fun KotlinMultiplatformExtension.applyDefaultHierarchyBinomTemplate() {
                 group("mobile"){
                     withAndroidTarget()
                     withIos()
+                }
+                group("commonWasm"){
+                    withWasmJs()
+                    withWasmWasi()
+                    withWasm()
                 }
             }
         }
