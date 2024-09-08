@@ -75,6 +75,7 @@ fun KotlinMultiplatformExtension.applyDefaultHierarchyBinomTemplate() {
                 group("nonJvm"){
                     withJs()
                     withWasmJs()
+                    withWasmWasi()
                     withWasm()
                     withApple()
                     withLinux()
