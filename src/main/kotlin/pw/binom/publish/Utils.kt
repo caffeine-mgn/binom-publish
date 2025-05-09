@@ -104,7 +104,7 @@ fun ifNotMac(func: () -> Unit) {
         func()
     }
 }
-
+/*
 fun Project.applyMacSeparateBuild() {
     val kotlin = extensions.findByType(KotlinMultiplatformExtension::class.java)
         ?: return
@@ -137,7 +137,7 @@ fun Project.applyMacSeparateBuild() {
         target.targetName
     }
 }
-
+*/
 fun <T : Named> NamedDomainObjectContainer<T>.forEach(mask: String, func: (T) -> Unit) {
     forEach { it ->
         if (it.name.isWildcardMatch(mask)) {
