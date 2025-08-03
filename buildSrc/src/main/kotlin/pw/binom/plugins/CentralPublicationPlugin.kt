@@ -47,7 +47,8 @@ class CentralPublicationPlugin : Plugin<Project> {
                 val url = if (target.isSnapshot) {
                     "https://s01.oss.sonatype.org/content/repositories/snapshots"
                 } else {
-                    "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2"
+//                    "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2"
+                    "https://central.sonatype.com/api/v1/publisher/upload"
                 }
                 it.url = URI(url)
                 it.credentials {
