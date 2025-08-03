@@ -5,7 +5,7 @@ plugins {
     kotlin("jvm")
     `java-gradle-plugin`
     `maven-publish`
-    id("com.gradle.plugin-publish") version "0.16.0"
+    id("com.gradle.plugin-publish") version "1.3.1"
 }
 
 allprojects {
@@ -74,7 +74,7 @@ publishing {
             artifactId = project.name
             version = project.version.toString()
             from(components["kotlin"])
-            artifact(sources)
+//            artifact(sources)
             artifact(docs)
         }
     }

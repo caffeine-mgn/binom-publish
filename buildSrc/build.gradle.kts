@@ -15,7 +15,7 @@ buildscript {
 val kotlinVersion = kotlin.coreLibrariesVersion
 
 plugins {
-    kotlin("jvm") version "2.1.20"
+    kotlin("jvm") version "2.2.0"
 //    id("org.jetbrains.kotlin.jvm")
     id("com.github.gmazzo.buildconfig") version "3.0.3"
 }
@@ -33,5 +33,5 @@ repositories {
 dependencies {
     api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     api("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-    api("org.jetbrains.dokka:dokka-gradle-plugin:1.9.20")
+    api("org.jetbrains.dokka:dokka-gradle-plugin:2.0.0")
 }

@@ -47,7 +47,6 @@ fun KotlinMultiplatformExtension.applyDefaultHierarchyBinomTemplate() {
         KotlinHierarchyTemplate.default.extend {
             common {
                 withJs()
-                withWasm()
                 withWasmJs()
                 withWasmWasi()
 
@@ -76,7 +75,6 @@ fun KotlinMultiplatformExtension.applyDefaultHierarchyBinomTemplate() {
                     withJs()
                     withWasmJs()
                     withWasmWasi()
-                    withWasm()
                     withApple()
                     withLinux()
                     withMingw()
@@ -89,7 +87,6 @@ fun KotlinMultiplatformExtension.applyDefaultHierarchyBinomTemplate() {
                 group("commonWasm"){
                     withWasmJs()
                     withWasmWasi()
-                    withWasm()
                 }
             }
         }
